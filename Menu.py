@@ -130,16 +130,16 @@ class Menu:
         self.reservation.reserver_par_horaire(date_str, heure_debut, heure_fin, groupe_id, motif)
 
     def _menu_reservation(self):
-        """Boucle du sous-menu de reservation (4 ou 5)."""
+        """Boucle du sous-menu de reservation (a ou b)"""
         while True:
             self._afficher_menu_reservation()
-            choix = input("Votre choix (reservation): ").strip()
+            choix = input("Votre choix (reservation): ").strip().lo
 
-            if choix == "4":
+            if choix == "a":
                 self._option_reserver_creneau()
-            elif choix == "5":
+            elif choix == "b":
                 self._option_reserver_intervalle()
-            elif choix == "0":
+            elif choix == "z":
                 break
             else:
                 print("Choix invalide.")

@@ -3,17 +3,15 @@ from mysql.connector import Error
 from Admin import Admin
 
 
-# Service d'authentification admin: inscription, verification existence, connexion.
+# Service d'authentification admin: inscription, verification existence, connexion
 class AuthentificationAdmin:
     def __init__(self, db):
-        # Partage la meme connexion MySQL fournie par la couche database.
         self.db = db
         self.connection = self.db.connecter() 
         # Stocke l'admin actuellement authentifie.
         self.admin_connecte = None
 
     def inscrire_admin(self, nom: str, email: str, mot_de_passe: str):
-        # Validation minimale des entrees utilisateur.
         if not nom.strip() or not email.strip() or not mot_de_passe.strip():
             print("Champs invalides pour la creation du compte admin.")
             return None
@@ -41,7 +39,7 @@ class AuthentificationAdmin:
             cursor.close()
 
     def existe_admin(self) -> bool:
-        # Permet de forcer la creation du premier admin au premier lancement.
+        # Permet de forcer la creation du premier admin au premier lancement
         cursor = self.connection.cursor()
         try:
             cursor.execute("SELECT COUNT(*) FROM admins")
@@ -54,7 +52,7 @@ class AuthentificationAdmin:
             cursor.close()
 
     def connecter_admin(self, email: str, mot_de_passe: str):
-        # Recupere les infos d'authentification de l'admin cible.
+        # Recupere les infos d'authentification de l'admin  en question
         cursor = self.connection.cursor()
         try:
             cursor.execute(
@@ -67,7 +65,7 @@ class AuthentificationAdmin:
                 return None
 
             # Uniformise le type du hash avant verification bcrypt.
-            hash_db = row[3]
+            hash_db = row[3] 
             if isinstance(hash_db, str):
                 hash_db = hash_db.encode("utf-8")
 
@@ -76,7 +74,7 @@ class AuthentificationAdmin:
                 print("Mot de passe incorrect.")
                 return None
 
-            # Cree l'objet metier Admin et le memorise en session.
+            # Créer Admin 
             self.admin_connecte = Admin(id_admin=row[0], nom=row[1], email=row[2]) 
             print(f"Connexion reussie. Bonjour {self.admin_connecte.nom}.")
             return self.admin_connecte
